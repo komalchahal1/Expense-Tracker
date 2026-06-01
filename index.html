@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI Expense Tracker</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="bg-grid"></div>
+
+    <div class="container">
+
+        <!-- HEADER -->
+
+        <header class="hero">
+
+            <div>
+                <span class="tag">⚡ AI Powered Finance Dashboard</span>
+
+                <h1>Expense Tracker</h1>
+
+                <p>
+                    Track spending, analyze habits and achieve savings goals.
+                </p>
+            </div>
+
+            <div class="health-score">
+
+                <span>Financial Health</span>
+
+                <h2 id="healthScore">87</h2>
+
+                <small>/100</small>
+
+            </div>
+
+        </header>
+
+        <!-- SUMMARY -->
+
+        <section class="summary-grid">
+
+            <div class="stat-card balance-card">
+
+                <p>Total Balance</p>
+
+                <h2 id="balance">₹0</h2>
+
+            </div>
+
+            <div class="stat-card">
+
+                <p>Total Income</p>
+
+                <h2 id="income">₹0</h2>
+
+            </div>
+
+            <div class="stat-card">
+
+                <p>Total Expense</p>
+
+                <h2 id="expense">₹0</h2>
+
+            </div>
+
+            <div class="stat-card">
+
+                <p>Savings Goal</p>
+
+                <h2 id="goalPercent">0%</h2>
+
+            </div>
+
+        </section>
+
+        <!-- MAIN GRID -->
+
+        <section class="dashboard-grid">
+
+            <!-- LEFT SIDE -->
+
+            <div class="left-panel">
+
+                <!-- ADD TRANSACTION -->
+
+                <div class="card">
+
+                    <div class="card-title">
+                        ➕ Add Transaction
+                    </div>
+
+                    <form id="expenseForm">
+
+                        <input type="text"
+                            id="title"
+                            placeholder="Transaction title"
+                            required>
+
+                        <input type="number"
+                            id="amount"
+                            placeholder="Amount"
+                            required>
+
+                        <select id="type">
+
+                            <option value="income">
+                                Income
+                            </option>
+
+                            <option value="expense">
+                                Expense
+                            </option>
+
+                        </select>
+
+                        <select id="category">
+
+                            <option value="Salary">Salary</option>
+                            <option value="Food">Food</option>
+                            <option value="Bills">Bills</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Subscriptions">Subscriptions</option>
+                            <option value="Movie">Movie</option>
+                            <option value="Grocery">Grocery</option>
+
+                        </select>
+
+                        <button type="submit">
+                            Add Transaction
+                        </button>
+
+                    </form>
+
+                </div>
+
+                <!-- AI INSIGHTS -->
+
+                <div class="card">
+
+                    <div class="card-title">
+                        🤖 AI Insights
+                    </div>
+
+                    <p id="aiInsightsText">
+                        Analyzing your spending...
+                    </p>
+
+                </div>
+
+                <!-- GOAL -->
+
+                <div class="card">
+
+                    <div class="card-title">
+                        🎯 Savings Goal
+                    </div>
+
+                    <input type="text"
+                        id="goalName"
+                        placeholder="Goal Name">
+
+                    <input type="number"
+                        id="goalAmount"
+                        placeholder="Target Amount">
+
+                    <div class="goal-buttons">
+
+                        <button id="saveGoalBtn">
+                            Save Goal
+                        </button>
+
+                        <button id="deleteGoalBtn"
+                            class="danger-btn">
+                            Delete
+                        </button>
+
+                    </div>
+
+                    <div class="goal-status">
+
+                        <p id="goalText">
+                            No active goal
+                        </p>
+
+                        <div class="progress-bar">
+
+                            <div class="progress-fill"
+                                id="progressFill"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDE -->
+
+            <div class="right-panel">
+
+                <!-- CHARTS -->
+
+                <div class="card">
+
+                    <div class="card-title">
+                        📈 Income vs Expense
+                    </div>
+
+                    <canvas id="expenseChart"></canvas>
+
+                </div>
+
+                <div class="card">
+
+                    <div class="card-title">
+                        📊 Category Analytics
+                    </div>
+
+                    <canvas id="categoryChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- HISTORY -->
+
+        <section class="card history-card">
+
+            <div class="history-header">
+
+                <h3>📜 Transaction History</h3>
+
+                <div class="filters">
+
+                    <input type="text"
+                        id="searchInput"
+                        placeholder="Search">
+
+                    <select id="filterCategory">
+
+                        <option value="All">All</option>
+
+                        <option value="Food">Food</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Salary">Salary</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Subscriptions">Subscriptions</option>
+                        <option value="Movie">Movie</option>
+                        <option value="Grocery">Grocery</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <ul id="transactionList"></ul>
+
+        </section>
+
+        <!-- ACHIEVEMENTS -->
+
+        <section class="card">
+
+            <div class="card-title">
+                🏆 Achievements
+            </div>
+
+            <div id="badges"></div>
+
+        </section>
+
+        <!-- GOAL HISTORY -->
+
+        <section class="card">
+
+            <div class="card-title">
+                📚 Completed Goals
+            </div>
+
+            <ul id="goalHistory"></ul>
+
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
